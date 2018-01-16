@@ -1,5 +1,7 @@
 package br.com.prodemge.keep.composite;
 
+import java.util.List;
+
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -10,6 +12,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -24,7 +29,7 @@ import br.com.prodemge.keep.ui.TagWindow;
 public class NoteViewComposite extends Composite {
 
 	private TableViewer viewer;
-
+	
 	public NoteViewComposite(Composite parent) {
 		super(parent, SWT.NONE);
 		this.getShell().setText("Notas");
@@ -36,6 +41,16 @@ public class NoteViewComposite extends Composite {
 
 	private void createComponents() {
 
+		Button btnUpdate = new Button(this, SWT.PUSH);
+		btnUpdate.setText("Update");
+		GridDataFactory.fillDefaults().span(2, 1).hint(50, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(btnUpdate);
+
+		btnUpdate.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				viewer.refresh();
+			}
+		});
 	}
 
 	private void createTableViewer() {
@@ -101,7 +116,7 @@ public class NoteViewComposite extends Composite {
 			@Override
 			public String getText(Object element) {
 				Note note = (Note) element;
-				return note.getDescription().substring(0, 30).concat("...");
+				return note.getDescription();
 			}
 		});
 	}

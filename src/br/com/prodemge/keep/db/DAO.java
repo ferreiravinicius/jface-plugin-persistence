@@ -21,6 +21,17 @@ public class DAO {
 		
 	}
 
+	public static <T> T update(T entity) {
+		
+		EntityManager session = JpaUtil.getEntityManager();
+		EntityTransaction tx = session.getTransaction();
+		tx.begin();
+		session.merge(entity);
+		tx.commit();
+		session.close();
+		
+		return entity;
+	}
 	
 	public static <T> List<T> getAll(Class<T> cls) {
 		
