@@ -23,7 +23,7 @@ import br.com.prodemge.keep.ui.SelectDialog;
 
 public class NoteCreateComposite extends Composite {
 
-	private Note note = new Note();
+	private Note note;
 
 	private Text txtTitle;
 	private Text txtDesc;
@@ -31,9 +31,32 @@ public class NoteCreateComposite extends Composite {
 
 	public NoteCreateComposite(Composite parent) {
 		super(parent, SWT.NONE);
+		init();
+		this.note = new Note();
+		createComponents();
+	}
+	
+	public NoteCreateComposite(Composite parent, Note note) {
+		super(parent, SWT.NONE);
+		init();
+		this.note = note;
+		createComponents();
+		fillComponents();
+	}
+	
+	private void init() {
 		this.getShell().setText("Notas - Cadastro");
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(this);
-		createComponents();
+	}
+	
+	private void fillComponents() {
+		
+		if (!note.getTitle().isEmpty() || note.getTitle() != null)
+			txtTitle.setText(note.getTitle());
+		
+		if (!note.getDescription().isEmpty() || note.getDescription() != null)
+			txtDesc.setText(note.getDescription());
+		
 	}
 
 	private void createComponents() {

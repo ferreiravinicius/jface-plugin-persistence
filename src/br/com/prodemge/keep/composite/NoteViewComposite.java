@@ -63,10 +63,10 @@ public class NoteViewComposite extends Composite {
 				if (selected == null || selected.isEmpty())
 					return;
 
-				System.out.println(selected);
+				new NoteWindow(getDisplay(), (Note) selected.getFirstElement()).createShell().open();
 			}
 		});
-		
+
 	}
 
 	// tbl
