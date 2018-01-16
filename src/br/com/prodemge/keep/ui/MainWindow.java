@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import br.com.prodemge.keep.composite.NoteCreateComposite;
+import br.com.prodemge.keep.composite.NoteViewComposite;
 
 public class MainWindow {
 	
@@ -21,7 +22,7 @@ public class MainWindow {
 		shell.setSize(500, 330);
 		RowLayoutFactory.swtDefaults().justify(true).applyTo(shell);
 		
-		new NoteCreateComposite(shell);
+		new NoteViewComposite(shell);
 		
 		return shell;
 	}

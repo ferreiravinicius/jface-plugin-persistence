@@ -75,12 +75,14 @@ public class TagCreateComposite extends Composite {
 				try {
 					DAO.save(new Tag(name));
 					MessageDialog.openConfirm(e.display.getActiveShell(), "Sucesso", "A tag foi cadastrada com sucesso!");
+				
 					
 				} catch (Exception ex) {
 					MessageDialog.openError(getShell(), "Erro", "A tag já existe!");
 				} finally {
 					txtName.setText("");
 					txtName.setFocus();
+					getShell().dispose();
 				}
 				
 			}

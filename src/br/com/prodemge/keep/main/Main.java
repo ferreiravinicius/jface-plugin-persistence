@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import br.com.prodemge.keep.composite.TagCreateComposite;
 import br.com.prodemge.keep.db.JpaUtil;
+import br.com.prodemge.keep.ui.MainWindow;
 import br.com.prodemge.keep.ui.NoteWindow;
 import br.com.prodemge.keep.ui.TagWindow;
 
@@ -14,7 +15,8 @@ public class Main {
 
 		Display display = new Display();
 //		Shell shell = new TagWindow(display).createShell();
-		Shell shell = new NoteWindow(display).createShell();
+//		Shell shell = new NoteWindow(display).createShell();
+		Shell shell = new MainWindow(display).createShell();
 
 		shell.open();
 

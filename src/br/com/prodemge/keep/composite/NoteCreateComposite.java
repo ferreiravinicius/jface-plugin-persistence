@@ -4,11 +4,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,7 +31,7 @@ public class NoteCreateComposite extends Composite {
 
 	public NoteCreateComposite(Composite parent) {
 		super(parent, SWT.NONE);
-		this.getShell().setText("Note - Cadastro");
+		this.getShell().setText("Notas - Cadastro");
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(this);
 		createComponents();
 	}
@@ -122,7 +120,11 @@ public class NoteCreateComposite extends Composite {
 					note.setTitle(title);
 					note.setDescription(desc);
 					DAO.save(note);
-					MessageDialog.openConfirm(getShell(), "Sucesso", "A nota foi cadastrada com sucesso!");
+					Boolean confirm = MessageDialog.openConfirm(getShell(), "Sucesso", "A nota foi cadastrada com sucesso!");
+					
+					if (confirm)
+						getShell().dispose();
+					
 					
 				} catch (Exception ex) {
 					MessageDialog.openError(getShell(), "Erro", "Erro ao cadastrar no banco de dados!");
