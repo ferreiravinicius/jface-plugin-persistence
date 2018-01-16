@@ -26,4 +26,5 @@ Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/slf4j-api-1.6.1.jar,
  .
 Require-Bundle: org.eclipse.swt,
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.core.runtime

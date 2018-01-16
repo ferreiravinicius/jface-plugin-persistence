@@ -1,5 +1,6 @@
 package br.com.prodemge.keep.composite;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -8,17 +9,17 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import br.com.prodemge.keep.db.DAO;
+import br.com.prodemge.keep.model.Tag;
 
 public class TagCreateComposite extends Composite {
 	
 	private Text txtName;
-	private Button btnSalvar;
 	
 	public TagCreateComposite(Composite parent) {
 		super(parent, SWT.NONE);
-		this.shell = (Shell)parent;
 		this.getShell().setText("Tag - Cadastro");
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(this);
 		createComponents();
@@ -36,23 +37,54 @@ public class TagCreateComposite extends Composite {
 		Label separator = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
 		GridDataFactory.fillDefaults().span(2,1).align(SWT.FILL, SWT.CENTER).applyTo(separator);
 		
-		btnSalvar = new Button(this, SWT.PUSH);
+		Button btnSalvar = new Button(this, SWT.PUSH);
 		btnSalvar.setText("Salvar");
-		GridDataFactory.swtDefaults().span(2, 1).hint(100, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(btnSalvar);
+		GridDataFactory.swtDefaults().span(1, 1).hint(100, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(btnSalvar);
 		
 		btnSalvar.addSelectionListener(eventSave());
 		
+		Button btnFechar = new Button(this, SWT.PUSH);
+		btnFechar.setText("Fechar");
+		GridDataFactory.swtDefaults().span(1, 1).hint(100, SWT.DEFAULT).applyTo(btnFechar);
+		
+		btnFechar.addSelectionListener(eventClose());
+		
 	}
 	
-	public SelectionAdapter eventSave() {
-		
+	private SelectionAdapter eventClose() {
 		return new SelectionAdapter() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				System.out.println("AAAA");
+			public void widgetSelected(SelectionEvent e) {
+				e.display.getActiveShell().dispose();
 			}
 		};
-		
+	}
+	
+	private SelectionAdapter eventSave() {
+		return new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				String name = txtName.getText();
+				
+				if (name.length() < 3) {
+					MessageDialog.openError(e.display.getActiveShell(), "Erro de validação", "O nome deve conter no mínimo 3 caracteres!");
+					return;
+				}
+				
+				try {
+					DAO.save(new Tag(name));
+					MessageDialog.openConfirm(e.display.getActiveShell(), "Sucesso", "A tag foi cadastrada com sucesso!");
+					
+				} catch (Exception ex) {
+					MessageDialog.openError(getShell(), "Erro", "A tag já existe!");
+				} finally {
+					txtName.setText("");
+					txtName.setFocus();
+				}
+				
+			}
+		};
 	}
 
 }
